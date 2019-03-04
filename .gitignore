@@ -1,6 +1,7 @@
 # Project specific
 config.json
 plan-b-ot
+planbot
 
 # Compiled Object files, Static and Dynamic libs (Shared Objects)
 *.o

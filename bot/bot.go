@@ -62,14 +62,14 @@ func setTask(userName string, args []string) (response string, status int) {
 
 	err := sendToSlack(
 		"Task set",
-		fmt.Sprintf("@%s set the task to `%s`. All votes have been reset.", userName, taskName),
+		fmt.Sprintf("@%s set the task to %s. All votes have been reset.", userName, taskName),
 		"good",
 	)
 	if err != nil {
 		return err.Error(), http.StatusInternalServerError
 	}
 
-	return fmt.Sprintf("You set the task to `%s`. All votes have been reset.", taskName), http.StatusOK
+	return fmt.Sprintf("You set the task to %s. All votes have been reset.", taskName), http.StatusOK
 }
 
 // setVote adds a vote to the current task
@@ -113,10 +113,16 @@ func getResults() (response string, status int) {
 
 	var buffer bytes.Buffer
 
-	totalPoints := 0.0
+        max := 0.0
+        min := 9999.0
 	for _, vote := range currentTask.Votes {
 		storyPoints := strconv.FormatFloat(vote.Vote, 'f', -1, 64)
-		totalPoints += vote.Vote
+                if (max < vote.Vote) {
+                  max = vote.Vote
+                }
+                if (min > vote.Vote) {
+                  min = vote.Vote
+                }
 
 		buffer.WriteString("@")
 		buffer.WriteString(vote.Username)
@@ -125,9 +131,12 @@ func getResults() (response string, status int) {
 		buffer.WriteString("`\n")
 	}
 
-	average := strconv.FormatFloat(totalPoints/float64(len(currentTask.Votes)), 'f', -1, 64)
-	buffer.WriteString("Average: `")
-	buffer.WriteString(average)
+	buffer.WriteString("Max: `")
+	buffer.WriteString(strconv.FormatFloat(max, 'g', -1, 64))
+	buffer.WriteString("`\n")
+
+	buffer.WriteString("Min: `")
+	buffer.WriteString(strconv.FormatFloat(min, 'g', -1, 64))
 	buffer.WriteString("`\n")
 
 	currentTask = task{

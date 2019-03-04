@@ -10,7 +10,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/apheleia/plan-b-ot/bot"
+	"./bot"
 )
 
 // Runs the server listening for the requests
