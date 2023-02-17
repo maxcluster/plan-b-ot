@@ -15,7 +15,7 @@ import (
 
 // Runs the server listening for the requests
 func main() {
-	err := bot.ReadConfig("config.json")
+	err := bot.ReadConfig("./config/config.json")
 	if err != nil {
 		panic(err.Error())
 	}
