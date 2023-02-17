@@ -6,7 +6,7 @@ WORKDIR /
 
 COPY bot ./bot
 COPY planbot.go ./
-COPY config.json.example ./config/config.json
+COPY config/config.json.example ./config/config.json
 
 RUN GO111MODULE=auto go build planbot.go
 
