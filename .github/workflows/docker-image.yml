@@ -14,4 +14,4 @@ jobs:
 
     steps:
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag plan-b-ot
+      run: docker build --tag plan-b-ot .
